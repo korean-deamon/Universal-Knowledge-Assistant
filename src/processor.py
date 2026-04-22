@@ -8,8 +8,8 @@ from src.config import DATA_DIR, VECTOR_STORE_DIR
 
 class DocumentProcessor:
     def __init__(self):
-        print("--- Initializing Embeddings (HuggingFace) ---")
-        self.embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
+        print("--- Initializing Multilingual Embeddings ---")
+        self.embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2")
         self.text_splitter = RecursiveCharacterTextSplitter(
             chunk_size=1000,
             chunk_overlap=100,

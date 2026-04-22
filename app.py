@@ -4,6 +4,7 @@ from src.processor import DocumentProcessor
 from langchain_core.messages import HumanMessage, AIMessage
 import os
 import shutil
+import json
 
 # Page configuration
 st.set_page_config(
@@ -49,12 +50,12 @@ with st.sidebar:
     if uploaded_files:
         if st.button("🔥 Process Uploaded Files"):
             with st.status("📥 Saving & Indexing...", expanded=True) as status:
-                # 1. Avval eski fayllarni o'chiramiz (faqat yangilari qolishi uchun)
+                # 1. Clear old files first (to keep library clean)
                 if os.path.exists("data"):
                     shutil.rmtree("data")
                 os.makedirs("data")
                 
-                # 2. Yangi fayllarni saqlaymiz
+                # 2. Save new files
                 for uploaded_file in uploaded_files:
                     with open(os.path.join("data", uploaded_file.name), "wb") as f:
                         f.write(uploaded_file.getbuffer())
@@ -93,6 +94,24 @@ with st.sidebar:
         st.session_state.brain = RAGBrain()
         st.success("Knowledge Base Reset!")
         st.rerun()
+
+    # 🎫 Ticket Tracking System
+    st.markdown("---")
+    st.subheader("🎫 Support Tickets")
+    if os.path.exists("tickets"):
+        tickets = sorted(os.listdir("tickets"), reverse=True)
+        if tickets:
+            for t_file in tickets[:5]: # Show last 5 tickets
+                with open(os.path.join("tickets", t_file), "r") as f:
+                    t_data = json.load(f)
+                    with st.expander(f"#{t_file.split('_')[1].split('.')[0]} - {t_data['summary'][:20]}..."):
+                        st.write(f"**From:** {t_data['name']}")
+                        st.write(f"**Email:** {t_data['email']}")
+                        st.write(f"**Desc:** {t_data['description']}")
+        else:
+            st.info("No active tickets.")
+    else:
+        st.info("No tickets created yet.")
 
 # Main Interface
 if "messages" not in st.session_state:
