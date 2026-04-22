@@ -32,8 +32,8 @@ Follow these steps to run the project on your machine:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/korean-deamon/Universal-Knowledge-Assistant.git
-cd Universal-Knowledge-Assistant
+git clone https://github.com/korean-deamon/Universal_Knowledge_Assistant.git
+cd Universal_Knowledge_Assistant
 ```
 
 ### 2. Create and Activate Virtual Environment
