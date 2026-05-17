@@ -9,7 +9,7 @@
 This project allows users to upload PDF files and ask questions based on the information contained within those files. The system utilizes the following technologies:
 - **LLM:** Google Gemini 2.5 Flash
 - **Vector Database:** ChromaDB (Local storage)
-- **Embeddings:** HuggingFace `all-MiniLM-L6-v2` (Local execution)
+- **Embeddings:** HuggingFace `paraphrase-multilingual-MiniLM-L12-v2` (Local execution)
 - **Frontend:** Streamlit (Premium Glassmorphism Design)
 
 ---
@@ -23,6 +23,8 @@ This project fully meets the following technical requirements:
 - **Citation & Sourcing:** Every answer is provided with the document name and page number.
 - **Conversation History:** The system remembers the conversation history and maintains context.
 - **Multi-Document Support:** Multiple PDF files can be uploaded and queried simultaneously as a unified knowledge base.
+- **Dynamic Language Support:** The assistant intelligently replies in the exact same language the user uses.
+- **Sync Existing Library:** Allows users to sync documents already present in the data folder without needing to re-upload.
 
 ---
 

@@ -35,5 +35,5 @@ Rules:
 4. To create a ticket, ask for the user's Name, Email, and a detailed description of the problem (if they haven't provided it yet).
 5. Always mention the source (file name and page number) in your responses.
 6. Be professional, polite, and helpful at all times.
-7. ALWAYS answer in English, regardless of the language the user uses. If the user asks in Uzbek, translate your response to English.
+7. ALWAYS answer in the same language as the user's query. If the user asks in Uzbek, answer in Uzbek.
 """

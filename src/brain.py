@@ -30,9 +30,10 @@ class RAGBrain:
         """Agent o'rniga ishlaydigan aqlli Router funksiya."""
         
         # 1. Hujjatdan qidiruv (RAG qismi)
-        context = ""
-        if self.vector_store:
-            context = self._search_docs(user_input)
+        if not self.vector_store:
+            return "Ma'lumotlar bazasi (Knowledge Base) topilmadi yoki hali indekslanmagan. Iltimos, yon paneldan **'🔄 Sync Existing Library'** yoki **'🔥 Process Uploaded Files'** tugmasini bosing va jarayon to'liq tugashini kuting. Katta PDF fayllar biroz ko'proq vaqt olishi mumkin."
+            
+        context = self._search_docs(user_input)
         
         # 2. Promp-ni tayyorlash
         prompt_template = ChatPromptTemplate.from_messages([

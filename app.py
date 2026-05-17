@@ -76,6 +76,15 @@ with st.sidebar:
         if lib_files:
             for f in lib_files:
                 st.markdown(f"🔹 `{f}`")
+            
+            # Allow syncing existing files without re-uploading
+            if st.button("🔄 Sync Existing Library"):
+                with st.status("📥 Indexing existing files...", expanded=True) as status:
+                    processor = DocumentProcessor()
+                    processor.process_and_store()
+                    st.session_state.brain = RAGBrain()
+                    status.update(label="✅ All Files Indexed!", state="complete")
+                    st.rerun()
         else:
             st.info("Library is empty.")
 
