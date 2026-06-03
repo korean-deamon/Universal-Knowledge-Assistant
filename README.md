@@ -19,12 +19,14 @@ This project allows users to upload PDF files and ask questions based on the inf
 This project fully meets the following technical requirements:
 
 - **Function Calling:** The support ticket creation process is handled via the LLM's `tool_calling` (Function Calling) capability.
-- **Issue Tracking System:** Tickets are saved both as local JSON files and sent to **GitHub Issues** via API.
+- **Issue Tracking System:** Tickets are saved as local JSON files, rendered as styled HTML files, and sent to **GitHub Issues** via API with markdown-formatted body.
 - **Citation & Sourcing:** Every answer is provided with the document name and page number.
 - **Conversation History:** The system remembers the conversation history and maintains context.
 - **Multi-Document Support:** Multiple PDF files can be uploaded and queried simultaneously as a unified knowledge base.
 - **Dynamic Language Support:** The assistant intelligently replies in the exact same language the user uses.
 - **Sync Existing Library:** Allows users to sync documents already present in the data folder without needing to re-upload.
+- **Ticket HTML Template:** Every support ticket is automatically rendered into a professional dark-theme HTML file (`templates/ticket.html`) that can be downloaded directly from the sidebar.
+- **Manual Ticket Form:** Users can create support tickets directly from the sidebar form without going through the AI chat.
 
 ---
 
@@ -81,6 +83,11 @@ streamlit run app.py
     *   When you ask a question, the system searches the database for the most relevant information.
     *   The retrieved information is sent to the Gemini model as "Context".
     *   The model answers based *only* on the uploaded documents and provides citations (file name and page).
+4.  **🎫 Support Ticket:**
+    *   If the answer is not found in the documents, the AI offers to create a support ticket.
+    *   The ticket is saved as a JSON file and a styled HTML file locally.
+    *   It is also sent to GitHub Issues automatically via API.
+    *   Tickets can also be created manually from the sidebar form at any time.
 
 ---
 
