@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support Ticket #{{ticket_id}} — AstroCorp</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .header {
+      background: linear-gradient(135deg, #1f6feb 0%, #388bfd 100%);
+      padding: 28px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .header-left h1 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      letter-spacing: 0.5px;
+    }
+    .header-left p {
+      font-size: 13px;
+      color: rgba(255,255,255,0.75);
+      margin-top: 4px;
+    }
+    .ticket-id {
+      background: rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 10px 18px;
+      text-align: center;
+    }
+    .ticket-id span {
+      display: block;
+      font-size: 11px;
+      color: rgba(255,255,255,0.7);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .ticket-id strong {
+      font-size: 22px;
+      color: #fff;
+      font-weight: 700;
+    }
+    .status-bar {
+      background: #21262d;
+      padding: 10px 32px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      border-bottom: 1px solid #30363d;
+      font-size: 12px;
+    }
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #1f6feb22;
+      border: 1px solid #1f6feb;
+      color: #58a6ff;
+      border-radius: 20px;
+      padding: 3px 12px;
+      font-weight: 600;
+    }
+    .status-badge.open::before { content: '●'; color: #3fb950; }
+    .status-badge.closed::before { content: '●'; color: #8b949e; }
+    .status-date { color: #8b949e; }
+    .body { padding: 28px 32px; }
+    .section { margin-bottom: 24px; }
+    .section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #8b949e;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .info-card {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .info-card label {
+      font-size: 11px;
+      color: #8b949e;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      display: block;
+      margin-bottom: 4px;
+    }
+    .info-card span {
+      font-size: 14px;
+      color: #e6edf3;
+      font-weight: 500;
+    }
+    .info-card a { color: #58a6ff; text-decoration: none; }
+    .description-box {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 18px;
+      font-size: 14px;
+      line-height: 1.7;
+      color: #c9d1d9;
+      white-space: pre-wrap;
+    }
+    .github-link-box {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 14px 16px;
+    }
+    .github-link-box svg { flex-shrink: 0; }
+    .github-link-box a {
+      color: #58a6ff;
+      text-decoration: none;
+      font-size: 13px;
+      word-break: break-all;
+    }
+    .github-link-box a:hover { text-decoration: underline; }
+    .footer {
+      background: #21262d;
+      border-top: 1px solid #30363d;
+      padding: 18px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      color: #8b949e;
+    }
+    .footer strong { color: #c9d1d9; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="header-left">
+        <h1>🤖 AstroCorp Industries</h1>
+        <p>Universal Knowledge Assistant — Support Ticket</p>
+      </div>
+      <div class="ticket-id">
+        <span>Ticket</span>
+        <strong>#{{ticket_id}}</strong>
+      </div>
+    </div>
+
+    <div class="status-bar">
+      <span class="status-badge {{status_class}}">{{status}}</span>
+      <span class="status-date">Created: {{created_at}}</span>
+    </div>
+
+    <div class="body">
+      <div class="section">
+        <div class="section-title">Contact Information</div>
+        <div class="info-grid">
+          <div class="info-card">
+            <label>Full Name</label>
+            <span>{{name}}</span>
+          </div>
+          <div class="info-card">
+            <label>Email</label>
+            <span><a href="mailto:{{email}}">{{email}}</a></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Issue Summary</div>
+        <div class="info-card" style="grid-column: span 2;">
+          <label>Title</label>
+          <span>{{summary}}</span>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-title">Description</div>
+        <div class="description-box">{{description}}</div>
+      </div>
+
+      {{#if github_url}}
+      <div class="section">
+        <div class="section-title">GitHub Issue</div>
+        <div class="github-link-box">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="#8b949e">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <a href="{{github_url}}" target="_blank">{{github_url}}</a>
+        </div>
+      </div>
+      {{/if}}
+    </div>
+
+    <div class="footer">
+      <span>AstroCorp Industries &bull; support@astrocorp.uz &bull; +998 71 123 45 67</span>
+      <span>108 Amir Temur Ave, Tashkent</span>
+    </div>
+  </div>
+</body>
+</html>

@@ -108,19 +108,61 @@ with st.sidebar:
     st.markdown("---")
     st.subheader("🎫 Support Tickets")
     if os.path.exists("tickets"):
-        tickets = sorted(os.listdir("tickets"), reverse=True)
-        if tickets:
-            for t_file in tickets[:5]: # Show last 5 tickets
+        json_tickets = sorted(
+            [f for f in os.listdir("tickets") if f.endswith(".json")],
+            reverse=True
+        )
+        if json_tickets:
+            for t_file in json_tickets[:5]:
                 with open(os.path.join("tickets", t_file), "r") as f:
                     t_data = json.load(f)
-                    with st.expander(f"#{t_file.split('_')[1].split('.')[0]} - {t_data['summary'][:20]}..."):
-                        st.write(f"**From:** {t_data['name']}")
-                        st.write(f"**Email:** {t_data['email']}")
-                        st.write(f"**Desc:** {t_data['description']}")
+                ticket_id = t_data.get("id", t_file.split("_")[1].split(".")[0])
+                status = t_data.get("status", "Open")
+                status_icon = "🟢" if status == "Open" else "⚫"
+                with st.expander(f"{status_icon} #{ticket_id} — {t_data['summary'][:22]}..."):
+                    st.markdown(f"**From:** {t_data['name']}")
+                    st.markdown(f"**Email:** {t_data['email']}")
+                    st.markdown(f"**Created:** {t_data.get('created_at', 'N/A')}")
+                    st.markdown(f"**Status:** {status}")
+                    st.markdown(f"**Issue:** {t_data['description'][:120]}{'...' if len(t_data['description']) > 120 else ''}")
+                    if t_data.get("github_url"):
+                        st.markdown(f"[View on GitHub]({t_data['github_url']})")
+                    html_path = os.path.join("tickets", f"ticket_{ticket_id}.html")
+                    if os.path.exists(html_path):
+                        with open(html_path, "r", encoding="utf-8") as hf:
+                            html_content = hf.read()
+                        st.download_button(
+                            label="⬇️ Download HTML",
+                            data=html_content,
+                            file_name=f"ticket_{ticket_id}.html",
+                            mime="text/html",
+                            key=f"dl_{ticket_id}"
+                        )
         else:
             st.info("No active tickets.")
     else:
         st.info("No tickets created yet.")
+
+    # 📝 Manual Ticket Form
+    st.markdown("---")
+    with st.expander("📝 Create Ticket Manually"):
+        with st.form("manual_ticket_form", clear_on_submit=True):
+            t_name  = st.text_input("Full Name", placeholder="John Doe")
+            t_email = st.text_input("Email", placeholder="john@example.com")
+            t_summary = st.text_input("Issue Summary", placeholder="Short title of the problem")
+            t_desc  = st.text_area("Description", placeholder="Describe the problem in detail...", height=100)
+            submitted = st.form_submit_button("🎫 Submit Ticket")
+            if submitted:
+                if t_name and t_email and t_summary and t_desc:
+                    from src.tools import create_support_ticket
+                    result = create_support_ticket.invoke({
+                        "name": t_name, "email": t_email,
+                        "summary": t_summary, "description": t_desc
+                    })
+                    st.success(result)
+                    st.rerun()
+                else:
+                    st.warning("Please fill in all fields.")
 
 # Main Interface
 if "messages" not in st.session_state:
@@ -147,5 +189,10 @@ if prompt := st.chat_input("Ask a question about your documents..."):
                 response = st.session_state.brain.query(prompt, st.session_state.messages[:-1])
                 st.markdown(response)
                 st.session_state.messages.append(AIMessage(content=response))
+                # Ticket form hint — show when AI suggests creating a ticket
+                ticket_keywords = ["support ticket", "qo'llab-quvvatlash chiptasi", "ticket yaratish",
+                                   "create a ticket", "open a ticket", "chipta", "ticket"]
+                if any(kw in response.lower() for kw in ticket_keywords):
+                    st.info("💡 Ticket yaratish uchun chap paneldagi **📝 Create Ticket Manually** bo'limidan foydalaning.")
             except Exception as e:
                 st.error(f"Error: {e}")
